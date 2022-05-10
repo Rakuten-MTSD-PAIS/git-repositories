@@ -7,17 +7,21 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
-import com.example.github.repositories.data.RepositoryDTO
+import androidx.recyclerview.widget.RecyclerView
+import com.example.github.repositories.data.OwnerDTO
 import com.squareup.picasso.Picasso
 
-class DetailFragment(private val repository: RepositoryDTO) : Fragment() {
+class UserFragment(private val user: OwnerDTO) : Fragment() {
+
+    private val viewModel = UserViewModel()
 
     private var title: TextView? = null
     private var image: ImageView? = null
     private var detail: TextView? = null
-    private var description: TextView? = null
     private var url: TextView? = null
+    private var list: RecyclerView? = null
 
     @SuppressLint("SetTextI18n")
     override fun onCreateView(
@@ -25,25 +29,23 @@ class DetailFragment(private val repository: RepositoryDTO) : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_detail, container, false)
+        val view = inflater.inflate(R.layout.fragment_user, container, false)
         title = view.findViewById(R.id.title)
         image = view.findViewById(R.id.image)
         detail = view.findViewById(R.id.detail)
-        description = view.findViewById(R.id.description)
         url = view.findViewById(R.id.url)
+        list = view.findViewById(R.id.list)
 
-        title!!.text = repository.name
-        detail!!.text = "Created by " + repository.owner!!.login + ", at " + repository.created_at
-        Picasso.get().load(repository.owner!!.avatar_url).into(image)
-        description!!.text = repository.description
-        url!!.text = repository.html_url
+        title!!.text = user.login
+        Picasso.get().load(user.avatar_url.toUri()).into(image)
 
-        detail!!.setOnClickListener {
-            requireActivity().supportFragmentManager
-                .beginTransaction()
-                .add(android.R.id.content, UserFragment(repository.owner!!))
-                .addToBackStack("user")
-                .commit()
+        viewModel.fetchUser(user.login)
+        viewModel.user.observeForever {
+            detail!!.text = "Twitter handle: " + it.twitter_username
+            viewModel.fetchRepositories(it.repos_url!!)
+        }
+        viewModel.repositories.observeForever {
+            list!!.adapter = RepositoryAdapter(it.toMutableList(), requireActivity())
         }
         return view
     }

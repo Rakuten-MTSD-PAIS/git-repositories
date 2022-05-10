@@ -9,8 +9,9 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="52px"
+        android:textSize="48px"
         android:textColor="@color/black"
+        android:textStyle="bold"
         android:id="@+id/title" />
     <TextView
         android:layout_width="wrap_content"
@@ -23,7 +24,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/description"
-        android:textSize="22px"
-        android:textColor="@color/black"
+        android:textSize="36px"
+        android:textColor="@android:color/darker_gray"
+        android:textStyle="italic"
         android:id="@+id/author" />
 </RelativeLayout>

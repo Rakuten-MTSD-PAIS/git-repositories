@@ -1,17 +1,4 @@
-package com.example.github.repositories
-
-import retrofit2.Call
-import retrofit2.http.GET
-import retrofit2.http.Query
-
-interface RepositoriesService {
-    @GET("search/repositories")
-    fun getRepositories(
-        @Query("q") q: String,
-        @Query("sort") sort: String,
-        @Query("order") order: String
-    ): Call<Response>
-}
+package com.example.github.repositories.data
 
 data class Response(
     val total_count: String,
@@ -19,7 +6,7 @@ data class Response(
     val items: MutableList<RepositoryDTO>
 )
 
-data class UserDTO(
+data class OwnerDTO(
     var login: String,
     var id: Int,
     var node_id: String,
@@ -54,7 +41,7 @@ data class RepositoryDTO(
     var name: String?,
     var full_name: String?,
     var private: Boolean?,
-    var owner: UserDTO?,
+    var owner: OwnerDTO?,
     var html_url: String?,
     var description: String?,
     var fork: Boolean?,
@@ -127,4 +114,39 @@ data class RepositoryDTO(
     var watchers: Int?,
     var default_branch: String?,
     var score: Int?
+)
+
+data class UserDTO(
+    var login: String?,
+    var id: Long,
+    var node_id: String?,
+    var avatar_url: String?,
+    var gravatar_id: String?,
+    var url: String?,
+    var html_url: String?,
+    var followers_url: String?,
+    var following_url: String?,
+    var gists_url: String?,
+    var starred_url: String?,
+    var subscriptions_url: String?,
+    var organizations_url: String?,
+    var repos_url: String?,
+    var events_url: String?,
+    var received_events_url: String?,
+    var type: String?,
+    var site_admin: Boolean?,
+    var name: String?,
+    var company: String?,
+    var blog: String?,
+    var location: String?,
+    var email: String?,
+    var hireable: String?,
+    var bio: String?,
+    var twitter_username: String?,
+    var public_repos: Int,
+    var public_gists: Int,
+    var followers: Int,
+    var following: Int,
+    var created_at: String?,
+    var updated_at: String?
 )

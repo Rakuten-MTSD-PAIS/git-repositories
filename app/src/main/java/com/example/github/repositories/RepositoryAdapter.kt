@@ -6,14 +6,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.example.github.repositories.data.RepositoryDTO
 
-class CustomAdapter(
-    val mList: MutableList<RepositoryDTO>,
-    val activity: MainActivity
-) : RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
+class RepositoryAdapter(
+    val list: List<RepositoryDTO>,
+    val activity: FragmentActivity
+) : RecyclerView.Adapter<RepositoryAdapter.ViewHolder>() {
 
-    override fun getItemCount(): Int = mList.size
+    override fun getItemCount(): Int = list.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item, parent, false)
@@ -32,7 +34,7 @@ class CustomAdapter(
 
         @SuppressLint("SetTextI18n")
         fun bindData(){
-            val item = mList[adapterPosition]
+            val item = list[adapterPosition]
             titleTxt.text = "#" + (position + 1) +": " + item.full_name!!.toUpperCase()
             descriptionTxt.text = if (item.description!!.length > 150) item.description!!.take(150).plus("...") else item.description
             authorTxt.text = item.owner!!.login
