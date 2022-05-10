@@ -1,0 +1,48 @@
+package com.example.github.repositories
+
+import android.annotation.SuppressLint
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.RelativeLayout
+import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
+
+class CustomAdapter(
+    val mList: MutableList<RepositoryDTO>,
+    val activity: MainActivity
+) : RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
+
+    override fun getItemCount(): Int = mList.size
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item, parent, false)
+        return ViewHolder(view)
+    }
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.bindData()
+    }
+
+    inner class ViewHolder(ItemView: View) : RecyclerView.ViewHolder(ItemView) {
+        val container: RelativeLayout = itemView.findViewById(R.id.news_container)
+        val titleTxt: TextView = itemView.findViewById(R.id.title)
+        val descriptionTxt: TextView = itemView.findViewById(R.id.description)
+        val authorTxt: TextView = itemView.findViewById(R.id.author)
+
+        @SuppressLint("SetTextI18n")
+        fun bindData(){
+            val item = mList[adapterPosition]
+            titleTxt.text = "#" + (position + 1) +": " + item.full_name!!.toUpperCase()
+            descriptionTxt.text = if (item.description!!.length > 150) item.description!!.take(150).plus("...") else item.description
+            authorTxt.text = item.owner!!.login
+            container.setOnClickListener {
+                activity.supportFragmentManager
+                    .beginTransaction()
+                    .add(android.R.id.content, DetailFragment(item))
+                    .addToBackStack("detail")
+                    .commit()
+            }
+        }
+    }
+}
