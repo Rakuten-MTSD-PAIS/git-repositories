@@ -4,10 +4,11 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.RelativeLayout
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.example.github.repositories.data.LocalDataStore
 import com.example.github.repositories.data.RepositoryDTO
 
 class RepositoryAdapter(
@@ -27,17 +28,25 @@ class RepositoryAdapter(
     }
 
     inner class ViewHolder(ItemView: View) : RecyclerView.ViewHolder(ItemView) {
-        val container: RelativeLayout = itemView.findViewById(R.id.news_container)
+        val container: View = itemView.findViewById(R.id.news_container)
         val titleTxt: TextView = itemView.findViewById(R.id.title)
+        val imageVw: ImageView = itemView.findViewById(R.id.image)
         val descriptionTxt: TextView = itemView.findViewById(R.id.description)
         val authorTxt: TextView = itemView.findViewById(R.id.author)
 
         @SuppressLint("SetTextI18n")
-        fun bindData(){
+        fun bindData() {
             val item = list[adapterPosition]
-            titleTxt.text = "#" + (position + 1) +": " + item.full_name!!.toUpperCase()
-            descriptionTxt.text = if (item.description!!.length > 150) item.description!!.take(150).plus("...") else item.description
+            titleTxt.text = "#" + (position + 1) + ": " + item.full_name!!.toUpperCase()
+            descriptionTxt.text = if (item.description!!.length > 150) item.description!!.take(150)
+                .plus("...") else item.description
             authorTxt.text = item.owner!!.login
+            imageVw.setImageResource(
+                if (LocalDataStore.instance.getBookmarks().contains(item))
+                    R.drawable.baseline_bookmark_black_24
+                else
+                    R.drawable.baseline_bookmark_border_black_24
+            )
             container.setOnClickListener {
                 activity.supportFragmentManager
                     .beginTransaction()

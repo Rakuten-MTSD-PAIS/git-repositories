@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:textColor="@color/black"
-        android:textSize="42dp"
+        android:textSize="38dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/image"
         app:layout_constraintHorizontal_bias="0.0"

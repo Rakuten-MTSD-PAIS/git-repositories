@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import com.example.github.repositories.data.LocalDataStore
 import com.example.github.repositories.data.RepositoryDTO
 import com.squareup.picasso.Picasso
 
@@ -38,6 +39,17 @@ class DetailFragment(private val repository: RepositoryDTO) : Fragment() {
         description!!.text = repository.description
         url!!.text = repository.html_url
 
+        image!!.setImageResource(
+            if (LocalDataStore.instance.getBookmarks().contains(repository))
+                R.drawable.baseline_bookmark_black_24
+            else
+                R.drawable.baseline_bookmark_border_black_24
+        )
+        image!!.setOnClickListener {
+            val isBookmarked = LocalDataStore.instance.getBookmarks().contains(repository)
+            LocalDataStore.instance.bookmarkRepo(repository, !isBookmarked)
+            image!!.setImageResource(if (!isBookmarked) R.drawable.baseline_bookmark_black_24 else R.drawable.baseline_bookmark_border_black_24)
+        }
         detail!!.setOnClickListener {
             requireActivity().supportFragmentManager
                 .beginTransaction()
