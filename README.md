@@ -47,3 +47,11 @@ We want to test different components to make sure they are working properly:
   - All the necessary information are fetched properly in the user screen
   - Repository is marked as bookmark properly
   - List is updated after changing the bookmark status of a repository
+
+## How to contribute
+1. Clone (not fork) this repository
+2. Create a new branch for your work
+3. Do the changes you want
+4. Push your branch and changes to a public repository as a standalone repository
+
+**Please do not fork the this repository, and do not raise a pull request to this repo.**
