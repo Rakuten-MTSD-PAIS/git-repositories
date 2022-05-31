@@ -54,4 +54,4 @@ We want to test different components to make sure they are working properly:
 3. Do the changes you want
 4. Push your branch and changes to a public repository as a standalone repository
 
-**Please do not fork the this repository, and do not raise a pull request to this repo.**
+**Please do not fork this repository, and do not raise a pull request to this repository as well.**
